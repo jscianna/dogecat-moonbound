@@ -1,0 +1,3 @@
+$ hardhat compile
+Nothing to compile
+No need to generate any newer typings.
