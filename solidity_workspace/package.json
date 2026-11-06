@@ -3,7 +3,14 @@
     "version": "1.0.0",
     "scripts": {
         "build": "hardhat compile",
-        "test": "hardhat test"
+        "test": "hardhat test",
+        "deploy:dogeos": "hardhat run scripts/deploy.js --network dogeosTestnet",
+        "roles:verify": "hardhat run scripts/verify-roles.js --network dogeosTestnet",
+        "minter:grant": "hardhat run scripts/grant-minter.js --network dogeosTestnet",
+        "minter:revoke": "hardhat run scripts/revoke-minter.js --network dogeosTestnet",
+        "mint:test": "hardhat run scripts/test-mint.js --network dogeosTestnet",
+        "cap:set": "hardhat run scripts/set-mint-cap.js --network dogeosTestnet",
+        "mint:pause": "hardhat run scripts/pause.js --network dogeosTestnet"
     },
     "devDependencies": {
         "@nomicfoundation/hardhat-chai-matchers": "2.0.8",
