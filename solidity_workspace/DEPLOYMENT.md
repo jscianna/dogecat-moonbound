@@ -72,14 +72,27 @@ npx hardhat test                 # local only, no keys, no network
 2. Relayer: a fresh hot key generated for Vercel, e.g. `0xRELAYER`. Fund it with only a small amount, e.g. ~0.2 DOGE.
 
 **B. Hardware-secured deploy (recommended: deployer = admin, best provenance)**
+
+Pinned plugin: `@nomicfoundation/hardhat-ledger@1.1.0`. It is the newest version compatible with `hardhat@2.22.17` and `ethers@6.13.4`. Do not use 1.2.x: it requires hardhat >= 2.26 and ethers >= 6.14.
+
+Device prep:
+1. Update the Ledger firmware and Ethereum app in Ledger Live, then **quit Ledger Live** (it holds the USB connection).
+2. Unlock the device and open the Ethereum app. Under Settings, enable **Blind signing** (contract deployment has no clear-sign metadata).
+3. Linux only: install Ledger udev rules.
+4. Use a standard Ledger Live account for the admin. On first use the plugin searches the device's derivation paths for `LEDGER_ACCOUNT` and caches it.
+
 ```bash
-npm i -D @nomicfoundation/hardhat-ledger
-# Ledger connected, unlocked, Ethereum app open, "Blind signing" enabled
+npm ci
 export LEDGER_ACCOUNT=0xADMIN MOONBOUND_ADMIN=0xADMIN MOONBOUND_MINTER=0xRELAYER
-npm run deploy:dogeos                        # dry run: review the plan + gas
-CONFIRM=yes npm run deploy:dogeos            # approve on the device
+unset PRIVATE_KEY
+
+npm run ledger:check                         # read-only: address, balance
+CONFIRM=yes npm run ledger:check             # 0-DOGE self-transfer, approve on device
+npm run deploy:dogeos                        # dry run: review plan + gas (no signing)
+CONFIRM=yes npm run deploy:dogeos            # ONE device prompt: contract creation
 ```
-If Ledger can't sign for this custom chain, use **Option C**.
+On the device, check that the chain ID shows `6281971`, the transaction is a contract creation, and the fee is small. Approve only if all three match.
+If `ledger:check` fails to sign or broadcast, stop and use **Option C**.
 
 **C. Alternative: throwaway deployer, cold admin**
 Use a disposable funded key as `PRIVATE_KEY`, keeping `MOONBOUND_ADMIN=0xADMIN` and `MOONBOUND_MINTER=0xRELAYER`. The deployer gets **no roles**, and the script verifies this. The explorer "creator" shows the throwaway address, while `owner()` shows the admin. Discard the throwaway key afterwards.
