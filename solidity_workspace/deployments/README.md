@@ -18,10 +18,14 @@ The top-level admin and minter fields are constructor-time assignments, not a co
 
 Use `DogecatMoonbound.abi.json` and `dogeos-testnet.json` together for this existing testnet address. The exported ABI contains 41 entries and a two-address constructor.
 
-**Current source, tests, and DEPLOYMENT.md describe a different, newer contract.** The deployed version does not implement pause controls, a mint cap, delayed admin transfer, or enforced admin/minter role separation. Do not rely on those protections for this deployment. It also has no `owner()` or `defaultAdmin()` getter. Query `hasRole(DEFAULT_ADMIN_ROLE, address)` for role membership.
+**V1 has no pause controls, mint cap, delayed admin transfer, enforced role separation, owner() or defaultAdmin().** Query `hasRole(DEFAULT_ADMIN_ROLE, address)` for membership.
 
-Compiling current source replaces the working artifact with the newer version. Do not use that rebuilt ABI or assume the current operational scripts work with this address. This export is pinned independently so integration can use the deployed interface. Source and script reconciliation remains outstanding; the repository is not ready for integration under the newer runbook's security assumptions.
+At record creation, current source and the runbook described incompatible V2. The deployment JSON preserves that historical verification finding. The follow-up restored original V1 source and pinned V1 operational scripts; V2 now lives outside the build under `future/v2`. Compiled output uses a separate ignored directory and cannot overwrite the deployed ABI. Read `../DEPLOYMENT.md` for current V1 integration and its operational limits.
 
 The exported interface supports `mintTo(address,bytes32,string)`, `tokenIdByPlayerKey(bytes32)`, `hasClaimed(bytes32)`, standard ERC-721 operations, and AccessControl role operations. No wallet signing, integration implementation, or minting test was performed in this verification.
 
 Only public deployment data and an ABI are included. No environment files, private keys, seed phrases, caches, build output, or unrelated generated artifacts were added.
+
+## V1 reconciliation follow-up
+
+The source and operations now target the original V1 contract. The newer source, tests and historical runbook have moved to `future/v2`. The mismatch described above is the finding at record creation; it remains here as provenance. Use `../DEPLOYMENT.md` for current V1 operations. The deployment JSON and ABI are unchanged.

@@ -8,7 +8,7 @@ const { ethers } = hre;
 const EXPECTED_CHAIN_ID = 6281971n;
 const NETWORK_NAME = "dogeos-chikyu-testnet";
 const RPC_URL = "https://rpc.testnet.dogeos.com";
-const EXPLORER_URL = "https://dogeos-testnet.l2scan.co";
+const EXPLORER_URL = "https://blockscout.testnet.dogeos.com";
 const ROOT = path.join(__dirname, "..", "..");
 const DEPLOYMENT_FILE = path.join(ROOT, "deployments", "dogeos-testnet.json");
 
@@ -58,9 +58,12 @@ async function getMoonbound(runner = ethers.provider) {
   const address = process.env.MOONBOUND_CONTRACT_ADDRESS
     ? envAddress("MOONBOUND_CONTRACT_ADDRESS")
     : readDeployment().address;
+  const deployment = readDeployment();
+  if (address.toLowerCase() !== deployment.address.toLowerCase()) throw new Error("Only the recorded V1 contract is supported.");
   const code = await ethers.provider.getCode(address);
-  if (code === "0x") throw new Error(`No contract code at ${address} on DogeOS testnet.`);
-  const { abi } = await hre.artifacts.readArtifact("DogecatMoonbound");
+  if (ethers.keccak256(code) !== deployment.verification.runtimeBytecodeKeccak256) throw new Error("Deployed V1 bytecode mismatch.");
+  // Never load an ABI from compilation output for an existing deployment.
+  const abi = JSON.parse(fs.readFileSync(path.join(ROOT, "deployments", "DogecatMoonbound.abi.json"), "utf8"));
   return new ethers.Contract(address, abi, runner);
 }
 
@@ -88,6 +91,7 @@ async function simulateAndSend(contract, method, args, label) {
     console.log("DRY RUN. Nothing was sent. Re-run with CONFIRM=yes to broadcast.");
     return null;
   }
+  if (process.env.MOONBOUND_V1_ACK !== "yes") throw new Error("Read DEPLOYMENT.md and explicitly set MOONBOUND_V1_ACK=yes for V1 role changes.");
   const tx = await contract[method](...args);
   console.log(`Sent ${label}: ${tx.hash}`);
   const receipt = await tx.wait(1);
@@ -109,7 +113,7 @@ async function runMinterRoleChange(action) {
   console.log(`Account:  ${account}`);
 
   if (!(await nft.hasRole(ADMIN_ROLE, signer.address))) {
-    throw new Error(`Signer ${signer.address} is not the admin (${await nft.defaultAdmin()}).`);
+    throw new Error(`Signer ${signer.address} does not hold DEFAULT_ADMIN_ROLE.`);
   }
   const isMinter = await nft.hasRole(MINTER_ROLE, account);
 

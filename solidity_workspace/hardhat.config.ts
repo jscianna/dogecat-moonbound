@@ -27,6 +27,8 @@ const compiler = (version: string) => ({
 });
 
 const config: HardhatUserConfig = {
+    // Preserve committed deployment artifacts; compiler output is disposable.
+    paths: { artifacts: "./.artifacts-v1-build", cache: "./.cache-v1-build" },
     solidity: {
         compilers: [compiler('0.8.28'), compiler('0.8.20'), compiler('0.8.19')],
     },

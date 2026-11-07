@@ -3,15 +3,15 @@
     "version": "1.0.0",
     "scripts": {
         "build": "hardhat compile",
-        "test": "hardhat test",
-        "ledger:check": "hardhat run scripts/ledger-check.js --network dogeosTestnet",
-        "deploy:dogeos": "hardhat run scripts/deploy.js --network dogeosTestnet",
-        "roles:verify": "hardhat run scripts/verify-roles.js --network dogeosTestnet",
-        "minter:grant": "hardhat run scripts/grant-minter.js --network dogeosTestnet",
-        "minter:revoke": "hardhat run scripts/revoke-minter.js --network dogeosTestnet",
-        "mint:test": "hardhat run scripts/test-mint.js --network dogeosTestnet",
-        "cap:set": "hardhat run scripts/set-mint-cap.js --network dogeosTestnet",
-        "mint:pause": "hardhat run scripts/pause.js --network dogeosTestnet"
+        "test": "hardhat test --no-compile",
+        "ledger:check": "hardhat run --no-compile scripts/ledger-check.js --network dogeosTestnet",
+        "deploy:dogeos": "hardhat run --no-compile scripts/deploy.js --network dogeosTestnet",
+        "roles:verify": "hardhat run --no-compile scripts/verify-roles.js --network dogeosTestnet",
+        "minter:grant": "hardhat run --no-compile scripts/grant-minter.js --network dogeosTestnet",
+        "minter:revoke": "hardhat run --no-compile scripts/revoke-minter.js --network dogeosTestnet",
+        "mint:test": "hardhat run --no-compile scripts/test-mint.js --network dogeosTestnet",
+        "cap:set": "hardhat run --no-compile scripts/set-mint-cap.js --network dogeosTestnet",
+        "mint:pause": "hardhat run --no-compile scripts/pause.js --network dogeosTestnet"
     },
     "devDependencies": {
         "@nomicfoundation/hardhat-chai-matchers": "2.0.8",

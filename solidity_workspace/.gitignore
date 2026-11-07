@@ -18,3 +18,9 @@ artifacts/build-info
 
 # OS files
 .DS_Store
+
+# Keep compiled V1 output separate from immutable deployed artifacts
+.artifacts-v1-build
+.cache-v1-build
+.env
+.env.*
