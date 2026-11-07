@@ -29,9 +29,9 @@ No signer is needed for `roles:verify`. It checks chain and bytecode, replays gr
 
 The website's `/api/rewards/moonbound` checks the signed session, permanent server-side Moonbound achievement, and verified EVM identity. `playerKey = keccak256(utf8(lowercasePlayerUuid + ":moonbound"))`; XP claim state is irrelevant. It persists the signed transaction before broadcasting and serializes this dedicated relayer through the shared player database. Pending transactions are retried with the exact same signed bytes. Do not use this relayer for any parallel CLI, wallet, other deployment, or application transactions. Do not add other minters while claims are enabled: metadata's token number is assigned under that serialization.
 
-Metadata is an immutable base64 JSON data URI. The website checks the approved, versioned image at its permanent public dogecat.com URL before signing. All tokens use the same artwork; the name includes the assigned token ID. **No placeholder metadata or favicon mint is permitted.** `mint:test` intentionally refuses: test through the authenticated website endpoint after the owner explicitly approves a real testnet mint.
+Metadata is an immutable base64 JSON data URI. The website checks the approved image at its permanent Arweave data ID through the Turbo gateway before signing. All tokens use the same artwork; the name includes the assigned token ID. **No placeholder metadata or favicon mint is permitted.** `mint:test` intentionally refuses: test through the authenticated website endpoint after the owner explicitly approves a real testnet mint.
 
-Website-only server secrets/configuration: `MOONBOUND_CONTRACT_ADDRESS`, `DOGEOS_RPC_URL`, `MOONBOUND_RELAYER_PRIVATE_KEY`, and `MOONBOUND_CLAIMS_ENABLED=true`. The latter defaults off. Never use NEXT_PUBLIC_ for the relayer key. The website needs the same player Redis used by Such Slope, exact allowed player origins, and the public image deployed first. See Dogecat `docs/MOONBOUND.md` for setup, recovery and acceptance checks.
+Website-only server secrets/configuration: `MOONBOUND_CONTRACT_ADDRESS`, `DOGEOS_RPC_URL`, `MOONBOUND_RELAYER_PRIVATE_KEY`, and `MOONBOUND_CLAIMS_ENABLED=true`. The latter defaults off. Never use NEXT_PUBLIC_ for the relayer key. The website needs the same player Redis used by Such Slope, exact allowed player origins, and the pinned public Arweave image reachable. See Dogecat `docs/MOONBOUND.md` for setup, recovery and acceptance checks.
 
 ## Role changes and emergency response
 
@@ -44,3 +44,7 @@ If the relayer is compromised, disable website claims and revoke that minter wit
 ## Record handling
 
 Preserve deployment records, ABI, and approved artwork versions. No keys, seeds, real environment files, caches, or new compiler output belong in commits. A legacy root `.env` was already tracked before this work and contains a public WalletConnect project identifier; it is unrelated to the relayer. Do not add secrets to it. The website's claim journal is private player storage, not a Git artifact.
+
+## Approved image storage
+
+The owner requested Arweave storage before minting. ArDrive Turbo accepted the full-resolution 756 × 1024 WebP (102,892 bytes) for zero credits on 7 November 2026. NFT metadata image: `https://turbo-gateway.com/raw/jIy4eX4rONnpGxDuEwLjFr1eAzfpsSYpkGAKG3fLgo8`. SHA-256: `5e090494ef9ffe4539f52dac57c35e743f77a5be8284a2fe5a98eee68d34c6fb`. The Dogecat repository preserves the complete public receipt and exact bytes under `design/moonbound`; its server checks the hash before signing. The upload used an unfunded disposable data signer, never the NFT relayer. A read-only check still returned zero minted NFTs. Gateway retrieval was verified; upload acceptance does not itself prove final Arweave settlement.

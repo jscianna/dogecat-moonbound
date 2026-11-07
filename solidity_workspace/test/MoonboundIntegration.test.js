@@ -17,7 +17,7 @@ describe("Pinned V1 integration", () => {
     const nft = await new ethers.ContractFactory(abi, artifact.bytecode, admin).deploy(admin.address,minter.address);
     await nft.waitForDeployment();
     const key=ethers.keccak256(ethers.toUtf8Bytes("12345678-1234-1234-1234-123456789abc:moonbound"));
-    const metadata={name:"Dogecat Moonbound #1",description:"Awarded for completing the Moon journey in Such Slope.",image:"https://dogecat.com/rewards/moonbound/portrait-6bb707e86e069c20.jpg?v=6bb707e86e069c2040656cdd12793c1a1e83ea27f483fab0dc4e29315b4ce6bd",external_url:"https://dogecat.com/player#moonbound",attributes:[{trait_type:"Game",value:"Such Slope"},{trait_type:"Achievement",value:"Moonbound"},{trait_type:"Series",value:"Lunar Archive"},{trait_type:"Network",value:"DogeOS Chikyū Testnet"}]};
+    const metadata={name:"Dogecat Moonbound #1",description:"Awarded for completing the Moon journey in Such Slope.",image:"https://turbo-gateway.com/raw/jIy4eX4rONnpGxDuEwLjFr1eAzfpsSYpkGAKG3fLgo8",external_url:"https://dogecat.com/player#moonbound",attributes:[{trait_type:"Game",value:"Such Slope"},{trait_type:"Achievement",value:"Moonbound"},{trait_type:"Series",value:"Lunar Archive"},{trait_type:"Network",value:"DogeOS Chikyū Testnet"}]};
     const uri="data:application/json;base64,"+Buffer.from(JSON.stringify(metadata)).toString("base64");
     const beforeMinter=await ethers.provider.getBalance(minter.address),beforePlayer=await ethers.provider.getBalance(player.address);
     const results=await Promise.allSettled([nft.connect(minter).mintTo(player.address,key,uri),nft.connect(minter).mintTo(player.address,key,uri)]);
