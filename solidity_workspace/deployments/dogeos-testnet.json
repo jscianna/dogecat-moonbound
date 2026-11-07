@@ -1,0 +1,58 @@
+{
+  "contractName": "DogecatMoonbound",
+  "address": "0x4A828C409C3c399Cc5fF996B6702c6Bc5Bdf0B8D",
+  "chainId": 6281971,
+  "network": "dogeos-chikyu-testnet",
+  "rpcUrl": "https://rpc.testnet.dogeos.com",
+  "explorer": "https://dogeos-testnet.l2scan.co/address/0x4A828C409C3c399Cc5fF996B6702c6Bc5Bdf0B8D",
+  "deployer": "0xE78D25b40F2139Ebb1954AC7002000d6643CfC5a",
+  "admin": "0xE78D25b40F2139Ebb1954AC7002000d6643CfC5a",
+  "minter": "0x4a432fe7610C71c12ac500a27064142550527AA6",
+  "constructorArguments": [
+    "0xE78D25b40F2139Ebb1954AC7002000d6643CfC5a",
+    "0x4a432fe7610C71c12ac500a27064142550527AA6"
+  ],
+  "deployTxHash": "0x10d8f231646bd81d0d23ceb3ff68784b6d837984a2faa7a02a6fb8913dd18adb",
+  "deployBlock": 9266124,
+  "deployBlockHash": "0x5ad19fba06ed910c5c0391318dd7fb70b8fcb62c846dbaa9922ea539a864e4a7",
+  "deployedAt": "2026-11-07T12:12:14.000Z",
+  "provenance": {
+    "kind": "reconstructed-from-public-chain-and-committed-artifact",
+    "originalLocalDeploymentFilesAvailable": false,
+    "deployedAtSource": "deployment block timestamp",
+    "artifactRepository": "jscianna/dogecat-moonbound",
+    "artifactCommit": "645ead32c8abd162ac670b08977dd6508e3ea1bb",
+    "artifactPath": "solidity_workspace/artifacts/contracts/DogecatMoonbound.sol/DogecatMoonbound.json",
+    "historicalSourceCommit": "4cf577f19cb402ab0dd1790d16c9910203b5dbde"
+  },
+  "verification": {
+    "verifiedAt": "2026-11-07T12:43:35.250Z",
+    "observedBlock": 9266750,
+    "receiptStatus": 1,
+    "runtimeBytecodeMatchesArtifact": true,
+    "creationBytecodeMatchesArtifact": true,
+    "constructorArgumentsMatch": true,
+    "initialRoleGrantsMatch": true,
+    "runtimeBytecodeBytes": 6937,
+    "runtimeBytecodeKeccak256": "0x3f4e508039e83a5b109d7c25df91e3aff88c2fc66aad40f6664e17067a9bc422",
+    "abiSha256": "38cebe25c9c8bae13fb694616b22bc1e1d632906ab647ef650875a35dcbe8629",
+    "readOnlyCalls": {
+      "name": "Dogecat Moonbound",
+      "symbol": "MOON",
+      "totalMinted": "0",
+      "initialAdminStillHasAdminRole": true,
+      "initialMinterStillHasMinterRole": true
+    }
+  },
+  "compatibility": {
+    "variant": "original-two-address-constructor",
+    "currentSoliditySourceMatchesDeployment": false,
+    "unsupportedFeatures": [
+      "pause controls",
+      "mint cap",
+      "delayed admin transfer",
+      "enforced admin/minter role separation"
+    ],
+    "integrationNotes": "Read deployments/README.md. Use the exported ABI for this address; the current Solidity source and operational runbook describe a different version."
+  }
+}
